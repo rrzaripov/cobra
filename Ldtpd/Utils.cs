@@ -892,6 +892,7 @@ namespace Ldtpd
                             propertyHT.Add("class",
                                 element.Current.ControlType.ProgrammaticName);
                         }
+                        propertyHT.Add("control-type", element.Current.ControlType);
                         propertyHT.Add("parent", parentName);
                         //propertyHT.Add("child_index", element.Current);
                         ArrayList childrenList = new ArrayList();
