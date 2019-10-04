@@ -28,6 +28,7 @@ Headers in this file shall remain intact.
 // Ran the test in Windows 7 SP1 like: (Adjusted the code accordingly for Windows, as I need to maniuplate with Notepad)
 // java -cp xmlrpc-client-3.1.3.jar;xmlrpc-common-3.1.3.jar;ws-commons-util-1.0.2.jar;commons-codec-1.6.jar;. Ldtp
 import java.net.URL;
+import java.io.File;
 import java.util.Arrays;
 import java.io.FileOutputStream;
 import java.lang.ProcessBuilder;
@@ -117,15 +118,19 @@ public class Ldtp {
 	 * launchLdtpProcess (private) Launch LDTP executable
 	 */
 	private void launchLdtpProcess() {
-		if (windowsEnv)
+	    String exe = new String("C:\\Program Files (x86)\\VMware\\CobraWinLDTP\\CobraWinLDTP.exe");
+		if (windowsEnv) {
 			// Launch Windows LDTP
-			pb = new ProcessBuilder("CobraWinLDTP.exe");
+			pb = new ProcessBuilder(exe);
+			pb.directory(new File("C:\\Program Files (x86)\\VMware\\CobraWinLDTP\\"));
+		}
 		else
 			// Launch Linux LDTP
 			pb = new ProcessBuilder("ldtp");
 		try {
 			// Start the process
 			p = pb.start();
+			System.out.println("Starting LDTP: " + exe);
 			// Add a hook to kill the process
 			// started by current Ldtp instance
 			Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -146,7 +151,7 @@ public class Ldtp {
 	/**
 	 * terminateLdtpProcess (private) Terminate LDTP executable started by this instance
 	 */
-	private void terminateLdtpProcess() {
+	public void terminateLdtpProcess() {
 		if (p != null) {
 			// Kill LDTP executable
 			p.destroy();
